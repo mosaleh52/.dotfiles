@@ -1,0 +1,70 @@
+(defcfg
+  input  (device-file "/dev/input/event19")
+  output (uinput-sink "KMonad kbd")
+  fallthrough true
+  ;;allow-cmd true
+  )
+
+(defsrc   
+  esc     1    2    3    4    5    6    7    8    9    0    -     =   bspc   
+  tab   q    w    e    r    t    y    u    i    o    p    [     ]  \      
+  caps  a    s    d    f    g    h    j    k    l    ;    '     ret      
+  lsft  z    x    c    v    b    n    m    ,    .    /     rsft         
+  lctl lalt lmet       spc       rmet ralt 
+  )
+
+(defalias
+  lsym (tap-next esc (layer-toggle syms))
+  bsym (tap-hold 300 spc (layer-toggle syms))
+
+  rsym (tap-next ' (layer-toggle syms))
+  hlmet (tap-hold 300 f lmet) 
+  hlalt (tap-hold 300 d lalt)
+  hlctl (tap-hold 300 s lctl)
+  hlsft (tap-hold 300 a lsft)
+  hrmet (tap-hold 300 j rmet) 
+  hralt (tap-hold 300 k ralt)
+  hrctl (tap-hold 300 l rctl)
+  hrsft (tap-hold 300 ; rsft)
+  num (tap-hold 400 z (layer-toggle nums))
+  to-arrow (tap-hold 300 = (layer-switch arrow))
+  to-base  (tap-hold 300 = (layer-switch base))
+  )
+ 
+ 
+
+
+(deflayer base
+  caps grv XX   XX   XX   XX   XX  XX    XX   XX   XX   XX  @to-arrow XX   
+  tab   q    w    e    r    t    y    u    i    o    p    [     ]  bspc      
+  @lsym @hlsft @hlctl @hlalt @hlmet g h  @hrmet @hralt @hrctl @hrsft @rsym ret      
+  XX     @num    x    c    v    b    n    m    ,    .    /    \         
+  XX    XX     XX      @bsym       XX     XX 
+  )
+
+(deflayer syms
+  caps  XX XX   XX   XX   XX   XX  XX    XX   XX   XX   XX  XX    bspc   
+  tab   1    2    3    4    5    6    7    8    9    0    -  = bspc       
+  @lsym  a    s    d    f    g    left down  up right :    '     ret      
+  lsft @num    x    c    v    b    n    m    ,    .     /     rsft         
+  XX    XX     XX        spc       XX     XX  
+  )
+
+(deflayer nums
+  caps   1    2    3    4    5    6    7    8    9    0    -     =   bspc   
+  tab   q    w    e    r    t    *    7    8     9   @    [     ]  bspc   
+  @lsym  a  s    d    f    g    0    4    5     6   ;    '     ret      
+   XX @num    x    c    v    b    ,    1    2     3     /     x        
+     XX    XX     XX        spc       XX     XX
+  )
+
+
+(deflayer arrow 
+  caps  1  2    3    4    5    6    7    8    9    0    - @to-base bspc   
+  tab   q    w    e    r    t    y    u    i    o    p    [     ]  \      
+  @lsym  a   right up  down left    left down  up right :    '     ret      
+  lsft @num    x    c    v    b    n    m    ,    .     /     rsft         
+  XX    XX     XX        spc       XX     XX  
+  )
+
+
