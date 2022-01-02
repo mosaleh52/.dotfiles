@@ -26,7 +26,7 @@
 
 from typing import List  # noqa: F401
 
-from libqtile import bar, layout, widget,qtile
+from libqtile import bar, layout, widget,qtile,extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen,KeyChord
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
@@ -39,7 +39,6 @@ from libqtile.widget.base import _Widget
 
 # Get the number of connected screens
 
-
 def get_monitors():
     xr = subprocess.check_output('xrandr --query | grep " connected"', shell=True).decode().split('\n')
     monitors = len(xr) - 1 if len(xr) > 2 else len(xr)
@@ -47,14 +46,25 @@ def get_monitors():
 
 
 monitors = get_monitors()
-####################
+####################f
 
 mod = "mod4"
 terminal = 'alacritty'
 
 keys = [
-     # Toggle floating
-    Key([mod, "shift"], "f", lazy.window.toggle_floating(),desc="Toggle floating"),
+    Key([mod], "t", lazy.spawn("rofi -show window"),desc="lunch rofi win switcher"),
+    # Toggle floating
+    Key([mod], "f", lazy.window.toggle_floating(),desc="Toggle floating"),
+    #Key([mod], "t",  lazy.run_extension(extension.WindowList(all_groups = True),desc="Toggle floating")),
+    #Key([mod], 't', lazy.run_extension(extension.WindowList(
+    #     dmenu_prompt=">",
+    #     dmenu_font="Andika-8",
+    #     background="#2e3440",
+    #     foreground="#88c0d0",
+    #     selected_background="#1D2330",
+    #     selected_foreground="#fff",
+    #     #dmenu_height=24,  # Only supported by some dmenu forks
+    # ))),
         # Cycle through windows in the floating layout
     Key([mod, "shift"], "i",lazy.window.toggle_minimize(),lazy.group.next_window(),lazy.window.bring_to_front()),
     # Switch between windows
@@ -118,7 +128,6 @@ keys = [
             Key([], "d",lazy.spawn("rofi -show drun"),desc='open rofi drun'),
             Key([], "f",lazy.spawn("firefox"),desc='open firefox'),
             Key([], "s",lazy.spawn("xfce4-settings-manager"),desc='open sittengs'),
-            Key([], "t", lazy.spawn("rofi -show window"),desc="lunch rofi win switcher"),
             Key([],"a",lazy.spawn("anki")),
             Key([],"o",lazy.spawn("/home/mo/Programs/Obsidian-0.12.19.AppImage")),
             Key([],'v',lazy.spawn("virtualbox")),
@@ -215,21 +224,20 @@ screens = [
                 scale = "False",
                 mouse_callbacks = {'Button1':open_rofi ,}
                 ),
-                widget.CurrentLayoutIcon(scale=.6, padding = 1),
+                widget.CurrentLayoutIcon(scale=.6, padding = 3),
                 widget.CurrentScreen(active_text='I',inactive_color='#bf616a',active_color='#a3be8c'),
-                #widget.GroupBox(hide_unused=True,margin =3 ,padding = .5),
-                widget.AGroupBox(margin =3 ,padding = .5,borderwidth=.01,border='#ffffff'),
+                widget.GroupBox(hide_unused=True,margin =3 ,padding = .5),
+                #widget.AGroupBox(margin =3 ,padding = .5,borderwidth=.01,border='#ffffff'),
+                widget.TaskList(icon_size=0,margin=1,fontsize=10,max_title_width=100),
                 widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(),
+#                widget.WindowName(),
                 widget.Systray(),
                 widget.PulseVolume(),
                 widget.Pomodoro(color_active='#a3be8c',color_inactive='#bf616a'),
                 widget.KeyboardLayout(configured_keyboards=["us","ar"]),
                 widget.GenPollText(func = get_prayer,update_interval = 60 ),
                 widget.Clock(format='⏰%I:%M',),
-                #widget.GenPollText(func = get_time,update_interval = 1,
-                #mouse_callbacks ={"Button1":stop_time}
+
                 #),
             ],
             20,
@@ -243,12 +251,11 @@ screens = [
                 widget.CurrentLayoutIcon(scale=.6, padding = 1),
                 widget.CurrentScreen(active_text='I',inactive_color='#bf616a',active_color='#a3be8c'),
                 widget.GroupBox(hide_unused=True,margin =3 ,padding = .5),
+                widget.TaskList(icon_size=0,margin=1,fontsize=10,max_title_width=100),
                 widget.Prompt(),
-                widget.WindowName(),
+                #widget.WindowName(),
                 widget.Systray(),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-
-                
                         ],
             24,
         ),
