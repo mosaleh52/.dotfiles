@@ -24,7 +24,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.d
 
-from typing import List  # noqa: F401
+from typing import List  
 
 from libqtile import bar, layout, widget,qtile,extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen,KeyChord
@@ -33,6 +33,7 @@ from libqtile.utils import guess_terminal
 import subprocess
 
 from libqtile.widget.base import _Widget
+
 
 
 
@@ -70,7 +71,7 @@ keys = [
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], 'j', lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(),
         desc="Move window focus to other window"),
@@ -120,7 +121,10 @@ keys = [
 	Key([mod], "p", lazy.next_screen(), desc="Move focus to next monitor"),
     #### switch layout
     #
-
+    #Key([mod],"ة", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
+    Key([mod],"m", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
+    Key([mod, "shift"],"space", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
+ 
     
 
     # rofi scripts
@@ -133,8 +137,10 @@ keys = [
             Key([],'v',lazy.spawn("virtualbox")),
             Key([],"z",lazy.spawn("vboxmanage startvm 'androidx68'")),
             Key([],"l",lazy.spawn("xflock4")),
-            Key([],"c",lazy.spawn("code")),
+            Key([],"c",lazy.spawn('copyq menu')),
             Key([],"m", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
+
+
         
         ])
 
@@ -144,6 +150,7 @@ keys = [
 
 for i in range(monitors):
     keys.extend([Key([mod, "mod1"], str(i+1), lazy.window.toscreen(i))])
+
 
 # groups names
 groups = [Group(i) for i in "123456789"]
@@ -162,6 +169,28 @@ for i in groups:
         # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
         #     desc="move focused window to group {}".format(i.name)),
     ])
+'''
+def go_to_group(group):
+    def f(qtile):
+        if group in '135':
+            qtile.cmd_to_screen(0)
+            qtile.groupMap[group].cmd_toscreen()
+        elif group in '246':
+            qtile.cmd_to_screen(1)
+            qtile.groupMap[group].cmd_toscreen()
+        else:
+            qtile.groupMap[group].cmd_toscreen()
+            
+
+    return f
+
+for i in '1234567890':
+    keys.append(Key([mod], i, lazy.function(go_to_group(i)))),
+    keys.append(Key([mod, 'shift'], i, lazy.window.togroup(i)))
+'''
+
+
+
 ##### DEFAULT THEME SETTINGS FOR LAYOUTS #####
 layout_theme = {"border_width": 2,
                 "fullscreen_border_width": 0,
@@ -207,6 +236,73 @@ def get_prayer():
     return out_put
 
 
+#####################################################
+# expanding clock widget from issues 3139 https://github.com/qtile/qtile/issues/3139
+#########################################################
+class ExpandingClock(widget.Clock):
+    defaults = [
+        ("long_format", "%A %d %B %Y | %H:%M", "Format to show when mouse is over widget."),
+        ("animation_time", .1 , "Time in seconds for animation"),
+        ("animation_step", 0.01, "Time in seconds for each step of the animation")
+    ]
+
+    def __init__(self, **config):
+        widget.Clock.__init__(self, **config)
+        self.add_defaults(ExpandingClock.defaults)
+        self.short_format = self.format
+        self.current_length = 0
+        self.toggled = False
+        self.step = 0
+        self.add_callbacks(
+            {
+                "Button1": self.toggle
+            }
+        )
+
+    def _configure(self, qtile, bar):
+        widget.Clock._configure(self, qtile, bar)
+        self.update(self.poll())
+        self.target_length = self.layout.width + self.padding * 2
+
+    def calculate_length(self):
+        if not self.configured:
+            return self.current_length
+
+        if self.current_length == 0:
+            return self.target_length
+
+        return self.current_length
+
+    def toggle(self):
+        if self.toggled:
+            self.format = self.short_format
+        else:
+            self.format = self.long_format
+
+        self.toggled = not self.toggled
+        self.update(self.poll())
+        self.target_length = self.layout.width
+        self.step = int((self.target_length - self.current_length) / (self.animation_time / self.animation_step))
+
+        if self.step:
+            self.timeout_add(self.animation_step, self.grow)
+
+    def grow(self):
+        target = self.layout.width + self.padding * 2
+
+        self.current_length += self.step
+
+        if self.step < 0:
+            self.current_length = max(self.current_length, target)
+        else:
+            self.current_length = min(self.current_length, target)
+
+        if self.current_length != target:
+            self.timeout_add(self.animation_step, self.grow)
+
+        self.bar.draw()
+##################################################
+
 
 
 
@@ -226,7 +322,7 @@ screens = [
                 ),
                 widget.CurrentLayoutIcon(scale=.6, padding = 3),
                 widget.CurrentScreen(active_text='I',inactive_color='#bf616a',active_color='#a3be8c'),
-                widget.GroupBox(hide_unused=True,margin =3 ,padding = .5),
+                widget.GroupBox(margin =3 ,padding = .5,hide_unused=True),
                 #widget.AGroupBox(margin =3 ,padding = .5,borderwidth=.01,border='#ffffff'),
                 widget.TaskList(icon_size=0,margin=1,fontsize=10,max_title_width=100),
                 widget.Prompt(),
@@ -236,7 +332,7 @@ screens = [
                 widget.Pomodoro(color_active='#a3be8c',color_inactive='#bf616a'),
                 widget.KeyboardLayout(configured_keyboards=["us","ar"]),
                 widget.GenPollText(func = get_prayer,update_interval = 60 ),
-                widget.Clock(format='⏰%I:%M',),
+                ExpandingClock(format='⏰%I:%M',),
 
                 #),
             ],
@@ -250,7 +346,7 @@ screens = [
                 linewidth = 0, padding = 1,foreground = ["#ffffff", "#ffffff"],background = ["#2e3440","#2e3440"]),
                 widget.CurrentLayoutIcon(scale=.6, padding = 1),
                 widget.CurrentScreen(active_text='I',inactive_color='#bf616a',active_color='#a3be8c'),
-                widget.GroupBox(hide_unused=True,margin =3 ,padding = .5),
+                widget.GroupBox(margin =3 ,padding = .5,hide_unused=True),
                 widget.TaskList(icon_size=0,margin=1,fontsize=10,max_title_width=100),
                 widget.Prompt(),
                 #widget.WindowName(),
