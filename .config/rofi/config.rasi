@@ -1,8 +1,7 @@
-configuration {
+/** Basic config file **/
 
-show-icons: true;
+configuration {
+  show-icons:         true;
+  icon-theme:         "Papirus";
 }
 @theme "bnord"
-
-
-

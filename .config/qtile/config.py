@@ -215,6 +215,7 @@ layouts = [
     # layout.TreeTab(),
     # layout.VerticalTile(),
     # layout.Zoomy(),
+    
 ]
 
 widget_defaults = dict(
@@ -332,7 +333,7 @@ screens = [
                 widget.Pomodoro(color_active='#a3be8c',color_inactive='#bf616a'),
                 widget.KeyboardLayout(configured_keyboards=["us","ar"]),
                 widget.GenPollText(func = get_prayer,update_interval = 60 ),
-                ExpandingClock(format='⏰%I:%M',),
+                ExpandingClock(format='⏰%I:%M',long_format="⏰ %I:%M | %A %d %B %Y",),
 
                 #),
             ],
