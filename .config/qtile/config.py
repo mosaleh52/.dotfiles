@@ -32,8 +32,11 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 import subprocess
 
+
 from libqtile.widget.base import _Widget
 
+from libqtile.config import Group, ScratchPad, DropDown, Key
+from libqtile.command import lazy
 
 
 
@@ -121,14 +124,14 @@ keys = [
 	Key([mod], "p", lazy.next_screen(), desc="Move focus to next monitor"),
     #### switch layout
     #
-    #Key([mod],"ة", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
     Key([mod],"m", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
     Key([mod, "shift"],"space", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
- 
+    Key([mod],'t',lazy.spawn('rofi -modi combi -combi-modi window -show combi'),desc='window switcher'),
+    
     
 
     # rofi scripts
-    KeyChord([mod], "e", [
+    KeyChord([mod], "e", [                      
             Key([], "d",lazy.spawn("rofi -show drun"),desc='open rofi drun'),
             Key([], "f",lazy.spawn("firefox"),desc='open firefox'),
             Key([], "s",lazy.spawn("xfce4-settings-manager"),desc='open sittengs'),
@@ -189,6 +192,19 @@ for i in '1234567890':
     keys.append(Key([mod, 'shift'], i, lazy.window.togroup(i)))
 '''
 
+groups.extend([
+    ScratchPad("scratchpad", [
+        # define a drop down terminal.
+        # it is placed in the upper third of screen by default.
+        DropDown("term", "alacritty", opacity=0.8,x=.25,y=0,width=.5),
+    ]
+    )
+])
+
+keys.extend ( [
+    # toggle visibiliy of above defined DropDown named "term"
+Key([mod,'shift'], 'r',lazy.group['scratchpad'].dropdown_toggle('term')),
+])
 
 
 ##### DEFAULT THEME SETTINGS FOR LAYOUTS #####
@@ -337,7 +353,7 @@ screens = [
 
                 #),
             ],
-            20,
+            20,margin = 3
         ),
     ),
     Screen(
@@ -383,7 +399,7 @@ floating_layout = layout.Floating(float_rules=[
     Match(title='branchdialog'),  # gitk
     Match(title='conky(mo-lab)'), 
     Match(title='pinentry'),  # GPG key password entry
-])
+],**layout_theme)
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
