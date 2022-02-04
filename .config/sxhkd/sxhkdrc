@@ -1,0 +1,6 @@
+super + t 
+	rofi -show window 
+super + Return
+	alacritty
+super + e ;{d,f,s,a,o,v,z,l,c}
+	{rofi -show drun , firefox,xfce4-settings-manager,anki,obsidian,virtualbox,vboxmanage startvm "andriodx68,xflock4,copyq menu } 

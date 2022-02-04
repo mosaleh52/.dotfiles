@@ -25,22 +25,80 @@
 # SOFTWARE.d
 
 from typing import List  
-
 from libqtile import bar, layout, widget,qtile,extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen,KeyChord
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
 import subprocess
-
-
-from libqtile.widget.base import _Widget
-
 from libqtile.config import Group, ScratchPad, DropDown, Key
 from libqtile.command import lazy
+from widgets import ExpandingClock ,Prayer,TimeWarrior
 
 
 
+mod = "mod4"
+terminal = 'alacritty'
 
+keys = [
+    Key([mod], "q", lazy.window.toggle_minimize() ,desc="Toggle floating"),
+    Key([mod], "f", lazy.window.toggle_floating(),desc="Toggle floating"),
+    Key([mod, "shift"], "i",lazy.window.toggle_minimize(),lazy.group.next_window(),lazy.window.bring_to_front()),
+    # Switch between windows
+    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key([mod], 'j', lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "space", lazy.layout.next(),desc="Move window focus to other window"),
+    # Move windows between left/right columns or move up/down in current stack.
+    # Moving out of range in Columns layout will create new column.
+    Key([mod, "shift"], "h", lazy.layout.shuffle_left(),desc="Move window to the left"),
+    Key([mod, "shift"], "l", lazy.layout.shuffle_right(),desc="Move window to the right"),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down(),desc="Move window down"),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+
+    # Grow windows. If current window is on the edge of screen and direction
+    # will be to screen edge - window would shrink.
+    Key([mod, "control"], "h", lazy.layout.grow_left(),desc="Grow window to the left"),
+    Key([mod, "control"], "l", lazy.layout.grow_right(),desc="Grow window to the right"),
+    Key([mod, "control"], "j", lazy.layout.grow_down(),desc="Grow window down"),
+    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([mod, "shift"], "Return", lazy.layout.toggle_split(),desc="Toggle between split and unsplit sides of stack"),
+    
+    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+
+    Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
+    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod], "r", lazy.spawncmd(),desc="Spawn a command using a prompt widget"),
+	Key([mod], "p", lazy.next_screen(), desc="Move focus to next monitor"),
+    Key([mod],"m", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
+    Key([mod, "shift"],"space", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
+    #Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    #Key([mod], "d",lazy.spawn('rofi -show drun') , desc="lunch rofi"),
+    ### Switch focus to specific monitor (out of three)
+    #Key([mod], "t", lazy.spawn("rofi -show window"),desc="lunch rofi win switcher"),
+	#Key([mod], "z", lazy.to_screen(0), desc="Keyboard focus to monitor 1"),
+	# Key([mod], "e", lazy.to_screen(1), desc="Keyboard focus to monitor 2"),
+	# Key([mod], "r", lazy.to_screen(2), desc="Keyboard focus to monitor 3"),
+    #Key([mod],'t',lazy.spawn('rofi -modi combi -combi-modi window -show combi'),desc='window switcher'),
+    # KeyChord([mod], "e", [                      
+    #         Key([], "d",lazy.spawn("rofi -show drun"),desc='open rofi drun'),
+    #         Key([], "f",lazy.spawn("firefox"),desc='open firefox'),
+    #         Key([], "s",lazy.spawn("xfce4-settings-manager"),desc='open sittengs'),
+    #         Key([],"a",lazy.spawn("anki")),
+    #         Key([],"o",lazy.spawn("/home/mo/Programs/Obsidian-0.12.19.AppImage")),
+    #         Key([],'v',lazy.spawn("virtualbox")),
+    #         Key([],"z",lazy.spawn("vboxmanage startvm 'androidx68'")),
+    #         Key([],"l",lazy.spawn("xflock4")),
+    #         Key([],"c",lazy.spawn('copyq menu')),
+    #         Key([],"m", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
+    #                   ])
+
+        
+        
+
+]
+# Move window to screen with Mod, Alt and number
 # Get the number of connected screens
 
 def get_monitors():
@@ -51,104 +109,6 @@ def get_monitors():
 
 monitors = get_monitors()
 ####################f
-
-mod = "mod4"
-terminal = 'alacritty'
-
-keys = [
-    Key([mod], "t", lazy.spawn("rofi -show window"),desc="lunch rofi win switcher"),
-    # Toggle floating
-    Key([mod], "f", lazy.window.toggle_floating(),desc="Toggle floating"),
-    #Key([mod], "t",  lazy.run_extension(extension.WindowList(all_groups = True),desc="Toggle floating")),
-    #Key([mod], 't', lazy.run_extension(extension.WindowList(
-    #     dmenu_prompt=">",
-    #     dmenu_font="Andika-8",
-    #     background="#2e3440",
-    #     foreground="#88c0d0",
-    #     selected_background="#1D2330",
-    #     selected_foreground="#fff",
-    #     #dmenu_height=24,  # Only supported by some dmenu forks
-    # ))),
-        # Cycle through windows in the floating layout
-    Key([mod, "shift"], "i",lazy.window.toggle_minimize(),lazy.group.next_window(),lazy.window.bring_to_front()),
-    # Switch between windows
-    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], 'j', lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(),
-        desc="Move window focus to other window"),
-
-    # Move windows between left/right columns or move up/down in current stack.
-    # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(),
-        desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(),
-        desc="Move window to the right"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(),
-        desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-
-    # Grow windows. If current window is on the edge of screen and direction
-    # will be to screen edge - window would shrink.
-    Key([mod, "control"], "h", lazy.layout.grow_left(),
-        desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(),
-        desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(),
-        desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack"),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    #Key([mod], "d",lazy.spawn('rofi -show drun') , desc="lunch rofi"),
-    
-    # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-
-    Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(),desc="Spawn a command using a prompt widget"),
-    ### Switch focus to specific monitor (out of three)
-	#Key([mod], "z", lazy.to_screen(0), desc="Keyboard focus to monitor 1"),
-	# Key([mod], "e", lazy.to_screen(1), desc="Keyboard focus to monitor 2"),
-	# Key([mod], "r", lazy.to_screen(2), desc="Keyboard focus to monitor 3"),
-	### Switch focus of monitors
-	Key([mod], "p", lazy.next_screen(), desc="Move focus to next monitor"),
-    #### switch layout
-    #
-    Key([mod],"m", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
-    Key([mod, "shift"],"space", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
-    Key([mod],'t',lazy.spawn('rofi -modi combi -combi-modi window -show combi'),desc='window switcher'),
-    
-    
-
-    # rofi scripts
-    KeyChord([mod], "e", [                      
-            Key([], "d",lazy.spawn("rofi -show drun"),desc='open rofi drun'),
-            Key([], "f",lazy.spawn("firefox"),desc='open firefox'),
-            Key([], "s",lazy.spawn("xfce4-settings-manager"),desc='open sittengs'),
-            Key([],"a",lazy.spawn("anki")),
-            Key([],"o",lazy.spawn("/home/mo/Programs/Obsidian-0.12.19.AppImage")),
-            Key([],'v',lazy.spawn("virtualbox")),
-            Key([],"z",lazy.spawn("vboxmanage startvm 'androidx68'")),
-            Key([],"l",lazy.spawn("xflock4")),
-            Key([],"c",lazy.spawn('copyq menu')),
-            Key([],"m", lazy.widget["keyboardlayout"].next_keyboard(), desc='Next keyboard layout.'),
-
-
-        
-        ])
-
-]
-# Move window to screen with Mod, Alt and number
 
 
 for i in range(monitors):
@@ -172,25 +132,6 @@ for i in groups:
         # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
         #     desc="move focused window to group {}".format(i.name)),
     ])
-'''
-def go_to_group(group):
-    def f(qtile):
-        if group in '135':
-            qtile.cmd_to_screen(0)
-            qtile.groupMap[group].cmd_toscreen()
-        elif group in '246':
-            qtile.cmd_to_screen(1)
-            qtile.groupMap[group].cmd_toscreen()
-        else:
-            qtile.groupMap[group].cmd_toscreen()
-            
-
-    return f
-
-for i in '1234567890':
-    keys.append(Key([mod], i, lazy.function(go_to_group(i)))),
-    keys.append(Key([mod, 'shift'], i, lazy.window.togroup(i)))
-'''
 
 groups.extend([
     ScratchPad("scratchpad", [
@@ -244,81 +185,9 @@ extension_defaults = widget_defaults.copy()
 ######## defin function for opening rofi using mouse calbake
 def open_rofi():
     qtile.cmd_spawn("rofi -show drun")
-######## fun for prayer times in qbar
-
-def get_prayer():
-    n_prayer = subprocess.check_output('next-prayer -i', shell=True).decode().replace("\n", "").replace("AM",'').replace("PM",'')
-    r_time = subprocess.check_output('next-prayer -l', shell=True).decode().replace("\n", "")[:5]
-    out_put = f'{n_prayer}⏱️{r_time}'
-    return out_put
 
 
-#####################################################
-# expanding clock widget from issues 3139 https://github.com/qtile/qtile/issues/3139
-#########################################################
-class ExpandingClock(widget.Clock):
-    defaults = [
-        ("long_format", "%A %d %B %Y | %H:%M", "Format to show when mouse is over widget."),
-        ("animation_time", .1 , "Time in seconds for animation"),
-        ("animation_step", 0.01, "Time in seconds for each step of the animation")
-    ]
 
-    def __init__(self, **config):
-        widget.Clock.__init__(self, **config)
-        self.add_defaults(ExpandingClock.defaults)
-        self.short_format = self.format
-        self.current_length = 0
-        self.toggled = False
-        self.step = 0
-        self.add_callbacks(
-            {
-                "Button1": self.toggle
-            }
-        )
-
-    def _configure(self, qtile, bar):
-        widget.Clock._configure(self, qtile, bar)
-        self.update(self.poll())
-        self.target_length = self.layout.width + self.padding * 2
-
-    def calculate_length(self):
-        if not self.configured:
-            return self.current_length
-
-        if self.current_length == 0:
-            return self.target_length
-
-        return self.current_length
-
-    def toggle(self):
-        if self.toggled:
-            self.format = self.short_format
-        else:
-            self.format = self.long_format
-
-        self.toggled = not self.toggled
-        self.update(self.poll())
-        self.target_length = self.layout.width
-        self.step = int((self.target_length - self.current_length) / (self.animation_time / self.animation_step))
-
-        if self.step:
-            self.timeout_add(self.animation_step, self.grow)
-
-    def grow(self):
-        target = self.layout.width + self.padding * 2
-
-        self.current_length += self.step
-
-        if self.step < 0:
-            self.current_length = max(self.current_length, target)
-        else:
-            self.current_length = min(self.current_length, target)
-
-        if self.current_length != target:
-            self.timeout_add(self.animation_step, self.grow)
-
-        self.bar.draw()
-##################################################
 
 
 
@@ -340,15 +209,17 @@ screens = [
                 widget.CurrentLayoutIcon(scale=.6, padding = 3),
                 widget.CurrentScreen(active_text='I',inactive_color='#bf616a',active_color='#a3be8c'),
                 widget.GroupBox(margin =3 ,padding = .5,hide_unused=True),
+                TimeWarrior(interval=10),
                 #widget.AGroupBox(margin =3 ,padding = .5,borderwidth=.01,border='#ffffff'),
                 widget.TaskList(icon_size=0,margin=1,fontsize=10,max_title_width=100),
                 widget.Prompt(),
 #                widget.WindowName(),
                 widget.Systray(),
-                widget.PulseVolume(),
+                #widget.PulseVolume(),
                 widget.Pomodoro(color_active='#a3be8c',color_inactive='#bf616a'),
                 widget.KeyboardLayout(configured_keyboards=["us","ar"]),
-                widget.GenPollText(func = get_prayer,update_interval = 60 ),
+                #widget.GenPollText(func = get_prayer,update_interval = 60 ),
+                Prayer(interval=60),
                 ExpandingClock(format='⏰%I:%M',long_format="⏰ %I:%M | %A %d %B %Y",),
 
                 #),
