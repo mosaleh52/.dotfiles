@@ -24,6 +24,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.d
 
+from curses import window
 from typing import List  
 from libqtile import bar, layout, widget,qtile,extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen,KeyChord
@@ -32,7 +33,7 @@ import subprocess
 from libqtile.config import Group, ScratchPad, DropDown, Key
 from libqtile.command import lazy
 from widgets import ExpandingClock ,Prayer,TimeWarrior
-
+import timelogger
 
 
 mod = "mod4"
@@ -206,7 +207,7 @@ screens = [
                 scale = "False",
                 mouse_callbacks = {'Button1':open_rofi ,}
                 ),
-                widget.CurrentLayoutIcon(scale=.6, padding = 3),
+                 widget.CurrentLayoutIcon(scale=.6, padding = 3),
                 widget.CurrentScreen(active_text='I',inactive_color='#bf616a',active_color='#a3be8c'),
                 widget.GroupBox(margin =3 ,padding = .5,hide_unused=True),
                 TimeWarrior(interval=10),
@@ -288,5 +289,6 @@ auto_minimize = True
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "qtile"
+
 
 

@@ -1,0 +1,52 @@
+#! /usr/bin/python
+import json
+import sys
+from datetime import timedelta
+from dateutil import parser
+try:
+	input_stream = sys.stdin.buffer
+except:
+	input_stream = sys.stdin
+
+task = json.loads(input_stream.readline().decode("utf-8",errors="replace"))
+print(json.dumps(task))
+with open("/home/mo/.task/hooks/test.txt","a") as file:
+    file.write(json.dumps(task,indent=4))
+    file.write("\ntask=============\n")
+
+
+def trans_iso_utc_to_locale(time:str,diffrence:int):
+    normal_time = parser.isoparse(time).replace(tzinfo=None)
+    return normal_time + timedelta(hours=diffrence) 
+
+with open('/home/mo/todo.txt','a') as file:
+    add_time = trans_iso_utc_to_locale(task['entry'],2).date()
+    print(add_time,type(add_time))
+    disc = task["description"]
+    if task.get('project'):
+        proj = f"+{task['project']}"
+        final = f"{add_time}    {disc}   {proj} \n"
+    else :
+        final = f"{add_time}    {disc}    \n"
+
+    file.write(final)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+print("task add and logged")

@@ -1,0 +1,67 @@
+#!/usr/bin/python
+import json
+import sys
+import dateutil.parser 
+from datetime import datetime,timedelta
+import re
+import logging
+logging.basicConfig(level=5,filename="/home/mo/.task/hooks/totalTime.log")
+try:
+    input_stream = sys.stdin.buffer
+except AttributeError:
+    input_stream = sys.stdin
+
+old = json.loads(input_stream.readline().decode("utf-8", errors="replace"))
+new = json.loads(input_stream.readline().decode("utf-8", errors="replace"))
+
+
+
+
+# Stopped task
+def str_to_delta(delta:str):
+    logging.debug(f"started str_to_delta with {delta}")
+    days, hours, minutes, seconds = re.match('(?:(\d+) days?, )?([0-9]+):([0-9][0-9]):([0-9]+\.?[0-9]*)', delta).groups('0')
+    logging.debug(f"finished regex in  str_to_delta   {days, hours, minutes, seconds }")
+    logging.debug(f"finished  str_to_delta  and returned  {timedelta(days=int(days), hours=int(hours), minutes=int(minutes), seconds=float(seconds)) } with type of {timedelta(days=int(days), hours=int(hours), minutes=int(minutes), seconds=float(seconds))}")
+    
+
+    return timedelta(days=int(days), hours=int(hours), minutes=int(minutes), seconds=float(seconds))
+
+
+
+
+def trans_iso_utc_to_locale(time:str,diffrence:int):
+    normal_time = dateutil.parser.isoparse(time).replace(tzinfo=None)
+    return normal_time + timedelta(hours=diffrence) 
+def find_deff(start_time:str):
+    return  datetime.utcnow() -dateutil.parser.isoparse(start_time).replace(tzinfo=None)
+def add_and_translate(prev_total,start_time):
+    old_total_time = str_to_delta(prev_total)
+    current_duration = find_deff(start_time)
+    return str(old_total_time+current_duration)
+
+def lode_lst_from_str(entry:str):
+    lst = entry[1:-1].split(",")
+    if lst[0] == "":
+        del(lst[0])
+
+    return lst
+
+if ('start' not in new or 'end' in new) and 'start' in old:
+    new['totalTime'] = add_and_translate(new['totalTime'],old['start'])
+    start , end = trans_iso_utc_to_locale(old["start"],2) , datetime.now()
+    new['timeLedger'] = new['timeLedger'][:-1]
+    new['timeLedger'] += f"'{start}==>{end}=={new['totalTime']}',]"
+    # print(str(ledger),"++++++++++++++++++")
+
+
+
+
+
+
+
+
+
+
+print(json.dumps(new))
+print(new["totalTime"],new["timeLedger"])
