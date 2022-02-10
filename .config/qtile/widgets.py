@@ -86,15 +86,52 @@ class Prayer(base.InLoopPollText):
 
 ##################################################33
 
-class TimeWarrior(base.InLoopPollText):
-    def __init__(self,interval:int, **config):
-        base.InLoopPollText.__init__(self,**config)
-        self.update_interval = interval 
+# class TimeWarrior(base.InLoopPollText):
+#     def __init__(self,interval:int, **config):
+#         base.InLoopPollText.__init__(self,**config)
+#         self.update_interval = interval 
+#     def get_output(self):
+#         info = str(run('timew', capture_output=True).stdout).split("\\n")
+#         if len(info)==2:
+#             return "no task"
+#         return self.extract_time_and_task(info)
+#     def extract_time_and_task(self,info:list):
+#         info[0] = info[0].replace("b'Tracking ",'')   
+#         info[3] = info[3].replace("Total",'').strip()
+#         return f"{info[0]} {info[3][0:4]}"
+#     def poll(self):
+#         return self.get_output()
+
+
+##################################################33
+from time import time
+class TimeWarrior(base.ThreadPoolText):
+    defaults = [
+        ("inactive_color", "ff0000", "Colour then pomodoro is inactive"),
+        ("active_color", "00ff00", "Colour then pomodoro is running"),
+        ("color_break", "ffff00", "Colour then it is break time"),
+        (
+            "update_interval",
+            1,
+            "Update interval in seconds, if none, the "
+            "widget updates whenever the event loop is idle.",
+        ),]
+
+    def __init__(self:int, **config):
+        base.ThreadPoolText.__init__(self, "", **config)
+        self.add_defaults(TimeWarrior.defaults)
+
+
     def get_output(self):
         info = str(run('timew', capture_output=True).stdout).split("\\n")
         if len(info)==2:
+            self.layout.colour = self.inactive_color
+
             return "no task"
-        return self.extract_time_and_task(info)
+        else:
+            print(self.layout,type(self.layout))
+            self.layout.colour = self.active_color
+            return self.extract_time_and_task(info)
     def extract_time_and_task(self,info:list):
         info[0] = info[0].replace("b'Tracking ",'')   
         info[3] = info[3].replace("Total",'').strip()

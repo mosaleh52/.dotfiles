@@ -28,7 +28,7 @@ from curses import window
 from typing import List  
 from libqtile import bar, layout, widget,qtile,extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen,KeyChord
-from libqtile.lazy import lazy
+from libqtile.lazy import lazy 
 import subprocess
 from libqtile.config import Group, ScratchPad, DropDown, Key
 from libqtile.command import lazy
@@ -205,12 +205,12 @@ screens = [
                 widget.Image(
                 filename = "~/.config/qtile/icons/but.png",
                 scale = "False",
-                mouse_callbacks = {'Button1':open_rofi ,}
+                mouse_callbacks = {'Button1':open_rofi ,'Button3':lazy.reload_config()}
                 ),
-                 widget.CurrentLayoutIcon(scale=.6, padding = 3),
+                widget.CurrentLayoutIcon(scale=.6, padding = 3),
                 widget.CurrentScreen(active_text='I',inactive_color='#bf616a',active_color='#a3be8c'),
                 widget.GroupBox(margin =3 ,padding = .5,hide_unused=True),
-                TimeWarrior(interval=10),
+                TimeWarrior(interval=1,inactive_color='#bf616a',active_color='#a3be8c'),
                 #widget.AGroupBox(margin =3 ,padding = .5,borderwidth=.01,border='#ffffff'),
                 widget.TaskList(icon_size=0,margin=1,fontsize=10,max_title_width=100),
                 widget.Prompt(),
@@ -225,12 +225,12 @@ screens = [
 
                 #),
             ],
-            20,margin = 3
-        ),
-    ),
+               22,margin = [5,9,4,9],opacity=0.8)),       
+
     Screen(
         bottom=bar.Bar(
             [
+            
             widget.Sep(
                 linewidth = 0, padding = 1,foreground = ["#ffffff", "#ffffff"],background = ["#2e3440","#2e3440"]),
                 widget.CurrentLayoutIcon(scale=.6, padding = 1),
@@ -239,11 +239,10 @@ screens = [
                 widget.TaskList(icon_size=0,margin=1,fontsize=10,max_title_width=100),
                 widget.Prompt(),
                 #widget.WindowName(),
-                widget.Systray(),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
                         ],
-            24,
-        ),
+            22,margin = [1,9,2,9],opacity=0.8
+         ),
     ),
 ]
 
