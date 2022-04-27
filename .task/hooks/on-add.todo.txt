@@ -21,7 +21,6 @@ def trans_iso_utc_to_locale(time:str,diffrence:int):
 
 with open('/home/mo/todo.txt','a') as file:
     add_time = trans_iso_utc_to_locale(task['entry'],2).date()
-    print(add_time,type(add_time))
     disc = task["description"]
     if task.get('project'):
         proj = f"+{task['project']}"
@@ -49,4 +48,3 @@ with open('/home/mo/todo.txt','a') as file:
 
 
 
-print("task add and logged")
