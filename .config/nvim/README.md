@@ -3,6 +3,9 @@
 ## Try out this config
 
 Make sure to remove or move your current `nvim` directory
+* [ ]try taskwiki
+* [ ] Install Taskwiki
+* [ ] do stuf
 
 ```
 git clone git@github.com:ChristianChiarulli/Neovim-from-scratch.git ~/.config/nvim

@@ -1,30 +1,24 @@
-    --global settings
-if (vim.g.vscode) then 
-    --vscode ext
-else 
     require "user.options"
     require "user.keymaps"
     require "user.plugins"
     require "user.colorscheme"
-    require "user.cmp"
-    require "user.lsp"
-    require "user.telescope"
     require "user.treesitter"
-    require "user.autopairs"
-    require "user.comment"
-    require "user.gitsigns"
-    require "user.nvim-tree"
+    require "user.telescope"
     require "user.bufferline"
-    require 'user.dap'
-    require 'user.dapui'
-    require 'user.dapvirtual'
-    --require "user.lualine"
-    --require "user.toggleterm"
-    --require "user.project"
-    --require "user.impatient"
-    --require "user.indentline"
-    --require "user.alpha"
-    --require "user.whichkey"
-    --require "user.autocommands"
-    require "user.taskwiki"
-end
+    require "user.indentline"
+    require "user.comment"
+    -- require "user.cmp"
+    -- require "user.lsp"
+    -- require "user.autopairs"
+    -- require "user.gitsigns"
+    -- require "user.nvim-tree"
+    -- require 'user.dap'
+    -- require 'user.dapui'
+    -- require 'user.dapvirtual'
+    -- require "user.toggleterm"
+    -- require "user.project"
+    -- require "user.impatient"
+    -- require "user.alpha"
+    -- require "user.whichkey"
+    -- require "user.autocommands"
+    -- require "user.taskwiki"
