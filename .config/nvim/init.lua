@@ -7,9 +7,9 @@
     require "user.bufferline"
     require "user.indentline"
     require "user.comment"
-    -- require "user.cmp"
-    -- require "user.lsp"
-    -- require "user.autopairs"
+    require "user.cmp"
+    require "user.lsp"
+    require "user.autopairs"
     -- require "user.gitsigns"
     -- require "user.nvim-tree"
     -- require 'user.dap'

@@ -73,27 +73,23 @@ return packer.startup(function(use)
 
   --Colorschemes
   use 'shaunsingh/nord.nvim'
-
   -- cmp plugins
- -- use "hrsh7th/nvim-cmp" -- The completion plugin
- -- use "hrsh7th/cmp-buffer" -- buffer completions
- -- use "hrsh7th/cmp-path" -- path completions
- -- use "hrsh7th/cmp-cmdline" -- cmdline completions
- -- use "saadparwaiz1/cmp_luasnip" -- snippet completions
- -- use "hrsh7th/cmp-nvim-lsp"
+  use "hrsh7th/nvim-cmp" -- The completion plugin
+  use "hrsh7th/cmp-buffer" -- buffer completions
+  use "hrsh7th/cmp-path" -- path completions
+  use "hrsh7th/cmp-cmdline" -- cmdline completions
+  use "saadparwaiz1/cmp_luasnip" -- snippet completions
+  use "hrsh7th/cmp-nvim-lsp"
  -- -- snippets
- -- use "L3MON4D3/LuaSnip" --snippet engine
- -- use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
-  -- Telescope
-  -- use "p00f/nvim-ts-rainbow"
-
+  use "L3MON4D3/LuaSnip" --snippet engine
+  use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
 --
 --  -- Git
 --   use "lewis6991/gitsigns.nvim"
 --  -- LSP
---   use "neovim/nvim-lspconfig" -- enable LSP
---  use "williamboman/nvim-lsp-installer" -- simple to use language server installer
---  use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
+   use "neovim/nvim-lspconfig" -- enable LSP
+  use "williamboman/nvim-lsp-installer" -- simple to use language server installer
+  use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
 
 --------------
 --  use  "goerz/jupytext.vim"
