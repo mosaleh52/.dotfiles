@@ -3,7 +3,7 @@ if not status_ok then
   return
 end
 configs.setup {
-  ensure_installed = {"python","json","lua"},-- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = {"python","json","lua","html","css"},-- one of "all", "maintained" (parsers with maintainers), or a list of languages
   sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
   ignore_install = { "" }, -- List of parsers to ignore installing
   autopairs = {
@@ -30,4 +30,4 @@ configs.setup {
 vim.cmd("set foldmethod=expr")                       --tressiter folding
 vim.cmd("set foldexpr=nvim_treesitter#foldexpr()")
 
-vim.cmd("set foldlevel=99")
+vim.cmd("set foldlevel=2")

@@ -24,20 +24,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.d
 
-from curses import window
 from typing import List
-from libqtile import bar, layout, widget, qtile, extension
-from libqtile.config import Click, Drag, Group, Key, Match, Screen, KeyChord
+from libqtile import bar, layout, widget, qtile
+from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown
 from libqtile.lazy import lazy
 import subprocess
-from libqtile.config import Group, ScratchPad, DropDown, Key
-from libqtile.command import lazy
 from widgets import ExpandingClock, Prayer, TimeWarrior
-import timelogger
 
 
 mod = "mod4"
-terminal = "alacritty"
+terminal = "kitty"
 
 keys = [
     Key([mod], "q", lazy.window.toggle_minimize(), desc="Toggle floating"),
@@ -248,7 +244,7 @@ screens = [
                 widget.CurrentScreen(
                     active_text="I", inactive_color="#bf616a", active_color="#a3be8c"
                 ),
-                widget.GroupBox(margin=3, padding=0.5, hide_unused=True,rounded = True),
+                widget.GroupBox(margin=3, padding=0.5, hide_unused=True, rounded=True),
                 TimeWarrior(
                     interval=1, inactive_color="#bf616a", active_color="#a3be8c"
                 ),

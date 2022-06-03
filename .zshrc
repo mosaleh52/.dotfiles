@@ -50,7 +50,7 @@ fcd(){
 alias getpath="find -type f | fzf | sed 's/^../' | tr -d '\n' | xclip -selection c"
 alias config='/usr/bin/git --git-dir=/home/mo/.cfg/ --work-tree=/home/mo'
 alias km='kmonad $HOME/.config/kmonad/c.kbd'
-
+alias cd='z'
 #########################################
 export EDITOR="/usr/bin/nvim"
 alias config='/usr/bin/git --git-dir=/home/mo/.cfg/ --work-tree=/home/mo'
@@ -61,4 +61,5 @@ export PATH="$HOME/.poetry/bin:$PATH"
 alias luamake=/home/mo/.local/share/nvim/lsp/lua/3rd/luamake/luamake
 export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
 export PATH="$PATH:$GEM_HOME/bin"
-
+eval "$(zoxide init zsh)"
+source $HOME/.zsh-vi-mode/zsh-vi-mode.plugin.zsh

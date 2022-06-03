@@ -10,6 +10,8 @@
     require "user.cmp"
     require "user.lsp"
     require "user.autopairs"
+    -- require "user.iron"
+    require "user.nnn"
     -- require "user.gitsigns"
     -- require "user.nvim-tree"
     -- require 'user.dap'
