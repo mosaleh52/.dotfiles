@@ -1,5 +1,5 @@
 (defcfg
-  input  (device-file "/dev/input/event18")
+  input  (device-file "/dev/input/by-id/usb-Lite-On_Technology_Corp_HP_USB_Multimedia_Keyboard-event-kbd")
   output (uinput-sink "KMonad kbd")
   fallthrough true
   ;;allow-cmd true

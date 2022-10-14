@@ -79,11 +79,6 @@ _G.packer_plugins = {
     path = "/home/mo/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
-  ["bracey.vim"] = {
-    loaded = true,
-    path = "/home/mo/.local/share/nvim/site/pack/packer/start/bracey.vim",
-    url = "https://github.com/turbio/bracey.vim"
-  },
   ["bufferline.nvim"] = {
     loaded = true,
     path = "/home/mo/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
@@ -139,11 +134,6 @@ _G.packer_plugins = {
     path = "/home/mo/.local/share/nvim/site/pack/packer/start/jupytext.vim",
     url = "https://github.com/GCBallesteros/jupytext.vim"
   },
-  ["nnn.nvim"] = {
-    loaded = true,
-    path = "/home/mo/.local/share/nvim/site/pack/packer/start/nnn.nvim",
-    url = "https://github.com/luukvbaal/nnn.nvim"
-  },
   ["nord.nvim"] = {
     loaded = true,
     path = "/home/mo/.local/share/nvim/site/pack/packer/start/nord.nvim",
@@ -159,6 +149,16 @@ _G.packer_plugins = {
     path = "/home/mo/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
   },
+  ["nvim-dap"] = {
+    loaded = true,
+    path = "/home/mo/.local/share/nvim/site/pack/packer/start/nvim-dap",
+    url = "https://github.com/mfussenegger/nvim-dap"
+  },
+  ["nvim-dap-ui"] = {
+    loaded = true,
+    path = "/home/mo/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
+    url = "https://github.com/rcarriga/nvim-dap-ui"
+  },
   ["nvim-lsp-installer"] = {
     loaded = true,
     path = "/home/mo/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
@@ -168,6 +168,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/mo/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
+  },
+  ["nvim-markdown-preview"] = {
+    loaded = true,
+    path = "/home/mo/.local/share/nvim/site/pack/packer/start/nvim-markdown-preview",
+    url = "https://github.com/davidgranstrom/nvim-markdown-preview"
   },
   ["nvim-treesitter"] = {
     loaded = true,
@@ -204,16 +209,6 @@ _G.packer_plugins = {
     path = "/home/mo/.local/share/nvim/site/pack/packer/start/popup.nvim",
     url = "https://github.com/nvim-lua/popup.nvim"
   },
-  ["posero.vim"] = {
-    loaded = true,
-    path = "/home/mo/.local/share/nvim/site/pack/packer/start/posero.vim",
-    url = "https://github.com/alfredodeza/posero.vim"
-  },
-  ["present.nvim"] = {
-    loaded = true,
-    path = "/home/mo/.local/share/nvim/site/pack/packer/start/present.nvim",
-    url = "https://github.com/Chaitanyabsprip/present.nvim"
-  },
   ["telescope-zoxide"] = {
     loaded = true,
     path = "/home/mo/.local/share/nvim/site/pack/packer/start/telescope-zoxide",
@@ -223,6 +218,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/mo/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
+  ["vim-startuptime"] = {
+    loaded = true,
+    path = "/home/mo/.local/share/nvim/site/pack/packer/start/vim-startuptime",
+    url = "https://github.com/dstein64/vim-startuptime"
   },
   ["vim-textobj-hydrogen"] = {
     loaded = true,

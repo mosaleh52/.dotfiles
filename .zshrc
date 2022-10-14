@@ -50,7 +50,7 @@ fcd(){
 alias getpath="find -type f | fzf | sed 's/^../' | tr -d '\n' | xclip -selection c"
 alias config='/usr/bin/git --git-dir=/home/mo/.cfg/ --work-tree=/home/mo'
 alias km='kmonad $HOME/.config/kmonad/c.kbd'
-alias cd='z'
+##alias cd='z'
 #########################################
 export EDITOR="/usr/bin/nvim"
 alias config='/usr/bin/git --git-dir=/home/mo/.cfg/ --work-tree=/home/mo'
@@ -63,3 +63,17 @@ export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
 export PATH="$PATH:$GEM_HOME/bin"
 eval "$(zoxide init zsh)"
 source $HOME/.zsh-vi-mode/zsh-vi-mode.plugin.zsh
+export PATH=/home/mo/.npm-global/bin:$PATH
+###cs50 
+make50 () {
+	gcc "$1".c -o "$1" -I /usr/local/include -L /usr/local/lib -lcs50
+}
+
+
+##cs50 clang
+export CC="clang"
+export CFLAGS="-fsanitize=signed-integer-overflow -fsanitize=undefined -ggdb3 -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow"
+export LDLIBS="-lcrypt -lcs50 -lm"
+
+
+##

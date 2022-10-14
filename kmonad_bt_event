@@ -1,0 +1,5 @@
+#script to change the input device
+event=$(grep -B 8 -A 4 12001 /proc/bus/input/devices | grep Logitech -A 4 | grep -oE 'event[0-9]+')
+echo $event  
+exec sed -i "s/event../$event/g" /home/mo/.config/kmonad/c.kbd 
+

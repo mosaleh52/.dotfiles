@@ -29,14 +29,14 @@ if not status_ok then
     return
 end
 
--- Have packer use a popup window
-packer.init {
-  display = {
-    open_fn = function()
-        return require("packer.util").float { border = "rounded" }
-    end,
-  },
-}
+ -- Have packer use a popup window
+ packer.init {
+   display = {
+     open_fn = function()
+         return require("packer.util").float { border = "rounded" }
+     end,
+   },
+ }
 
 -- Install your plugins here
 return packer.startup(function(use)
@@ -94,7 +94,7 @@ return packer.startup(function(use)
     use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
     -- use 'untitled-ai/jupyter_ascending.vim'
     --------------
-    --  use  "goerz/jupytext.vim" 
+    --  use  "goerz/jupytext.vim"
     -- use 'ThePrimeagen/vim-be-good'
     ------ jupyter setup ----------
     use 'hkupty/iron.nvim'
@@ -103,16 +103,17 @@ return packer.startup(function(use)
     use 'GCBallesteros/vim-textobj-hydrogen'
     use 'GCBallesteros/jupytext.vim'
     ----------------------
-    use "luukvbaal/nnn.nvim"
-    use 'Chaitanyabsprip/present.nvim'
-    use 'alfredodeza/posero.vim'
+   -- use "luukvbaal/nnn.nvim"
+   -- use 'Chaitanyabsprip/present.nvim'
+   -- use 'alfredodeza/posero.vim'
     use 'mattn/emmet-vim'
-    use 'turbio/bracey.vim' -- do npm install --prefix server in the file of the plugin 
+   -- use 'turbio/bracey.vim' -- do npm install --prefix server in the file of the plugin
+    use 'dstein64/vim-startuptime'
+    use 'davidgranstrom/nvim-markdown-preview'
+    -- use "https://gitlab.com/ivan-cukic/nvim-telescope-zeal-cli.git"
     -- debugger
-    --    use   "puremourning/vimspector"
-    --    use 'mfussenegger/nvim-dap'
-    --    use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
-    --  use "untitled-ai/jupyter_ascending.vim"
+        use 'mfussenegger/nvim-dap'
+        use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
     --taskwiki
     --     use "tools-life/taskwiki"
     --    use "vimwiki/vimwiki"
