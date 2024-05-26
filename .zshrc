@@ -28,11 +28,15 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 
+# Add in snippets
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::command-not-found
 
 # Load completions
-autoload -Uz compinit && compinit
+# autoload -Uz compinit && compinit
 
-zinit cdreplay -q
+# zinit cdreplay -q
 
 
 # Keybindings
@@ -106,7 +110,9 @@ _fzf_compgen_dir() {
 
 # thefuck alias
 eval "$(thefuck --alias fk)"
-eval "$(zoxide init zsh)"
+eval "$(zoxide init --cmd cd zsh)"
+eval "$(atuin init zsh)"
+zinit load atuinsh/atuin 
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
