@@ -6,6 +6,8 @@ return {
     opts = {
       ensure_installed = {
         "astro",
+        "vue",
+        "tsx",
         "html",
         "cmake",
         "cpp",

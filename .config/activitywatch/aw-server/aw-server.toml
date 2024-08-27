@@ -1,0 +1,17 @@
+[server]
+#host = "localhost"
+#port = "5600"
+#storage = "peewee"
+#cors_origins = ""
+
+[server.custom_static]
+aw-watcher-input = "/home/mo/code/tut/aw-watcher-input/visualization/dist"
+
+
+[server-testing]
+host = "localhost"
+port = "5666"
+#storage = "peewee"
+cors_origins = "*"
+
+[server-testing.custom_static]

@@ -2,11 +2,11 @@
   )
 
 (defsrc   
-  esc     1    2    3    4    5    6    7    8    9    0    -     =   bspc   
-  tab   q    w    e    r    t    y    u    i    o    p    [     ]  \      
-  caps  a    s    d    f    g    h    j    k    l    ;    '     ret      
-  lsft  z    x    c    v    b    n    m    ,    .    /     rsft         
-  lctl lalt lmet       spc       rmet ralt 
+  esc     1    2    3    4    5    6    7    8    9    0    -     =   bspc
+  tab   q    w    e    r    t    y    u    i    o    p    [     ]  \      kp7 kp8 kp9
+  caps  a    s    d    f    g    h    j    k    l    ;    '     ret     kp4 kp5 kp6 
+  lsft  z    x    c    v    b    n    m    ,    .    /     rsft          kp1 kp2 kp3 
+  lctl  lmet lalt      spc        ralt                              left   kp0 kp.
   )
 
 (defalias
@@ -29,51 +29,76 @@
   to-arrow (tap-hold 200 200 = (layer-switch arrow))
   to-base  (tap-hold 200 200 = (layer-switch base))
   to-normal (tap-hold 200 200 - (layer-switch normal))
-  to-base2  (tap-hold 200 200 - (layer-switch base)) )
+  to-base2  (tap-hold 200 200 - (layer-switch base))
+
+  to-mouse (tap-hold 200 200 = (layer-toggle mouse))
+  ms↑ (movemouse-up 5 1)
+  ms← (movemouse-left 5 1)
+  ms↓ (movemouse-down 5 1)
+  ms→ (movemouse-right 5 1)
+
+  mwu (mwheel-up 80 80)
+  mwd (mwheel-down 80 80)
+  mwl (mwheel-left 80 80)
+  mwr (mwheel-right 80 80)
+
+  ma↑ (movemouse-accel-up 5 1000 1 5)
+  ma← (movemouse-accel-left 5 1000 1 5)
+  ma↓ (movemouse-accel-down 5 1000 1 5)
+  ma→ (movemouse-accel-right 5 1000 1 5)
+  )
  
  
 
 
 (deflayer base
   caps grv XX   XX   XX   XX   XX  XX    XX   XX   XX   @to-normal  @to-arrow XX   
-  tab   q    w    e    r    t    y    u    i    o    p    [     ]  bspc      
-  XX @hlsft @hlctl @hlalt @hlmet g h  @hrmet @hralt @hrctl @hrsft @rsym ret      
-  @lsym     @num    x    c    v    b    n    m    ,    .    /    \         
-  XX    XX     @rnorm  @bsym       @lnorm XX 
+  tab   q    w    e    r    t    y    u    i    o    p    [     ]  bspc      @mwd @ma↑ @mwu    
+  XX @hlsft @hlctl @hlalt @hlmet g h  @hrmet @hralt @hrctl @hrsft @rsym ret @ma← @ma↓ @ma→     
+  @lsym     @num    x    c    v    b    n    m    ,    .    /    \          mlft mmid mrgt     
+  XX    XX     @to-mouse  @bsym       @to-mouse                             left kp0 kp.       
   )
 
 (deflayer syms
   caps  XX XX   XX   XX   XX   XX  XX    XX   XX   XX   XX  XX    bspc   
-  tab   1    2    3    4    5    6    7    8    9    0    -  = bspc       
-  @lsym  a    s    d    f    g    left down  up rght ;    '     ret      
-  lsft @num    x    c    v    b    n    m    ,    .     /     rsft         
-  XX    XX     XX        spc       XX     XX  
+  tab   1    2    3    4    5    6    7    8    9    0    -  = bspc          @mwd @ma↑ @mwu                  
+  @lsym  a    s    d    f    g    left down  up rght ;    '     ret         @ma← @ma↓ @ma→      
+  lsft @num    x    c    v    b    n    m    ,    .     /     rsft          mlft mmid mrgt                  
+  XX    XX     XX        spc       XX                                       left kp0 kp.                           
   )
 
 (deflayer nums
-  caps   1    2    3    4    5    6    7    8    9    0    -     =   bspc   
-  tab   q    w    e    r    t     -    7    8     9   -    [     ]  bspc   
-  @lsym  a  s    d    f    g    0    4    5     6   ;    '     ret      
-   XX @num    x    c    v    b    ,    1    2     3     /     x        
-     XX    XX     XX        spc       XX     XX
+  caps   1    2    3    4    5    6    7    8    9    0    -     =   bspc                    
+  tab   q    w    e    r    t     -    7    8     9   -    [     ]  bspc     @mwd @ma↑ @mwu    
+  @lsym  a  s    d    f    g    0    4    5     6   ;    '     ret          @ma← @ma↓ @ma→                
+   XX @num    x    c    v    b    ,    1    2     3     /     x             mlft mmid mrgt                          
+     XX    XX     XX        spc            XX                               left kp0 kp.      
   )
 
 
 (deflayer arrow 
-  caps  1  2    3    4    5    6    7    8    9    0    - @to-base bspc   
-  tab   q    w    e    r    t    y    u    i    o    p    [     ]  \      
-  @lsym  a   rght up  down left    left down  up rght ;    '     ret      
-  lsft @num    x    c    v    b    n    m    ,    .     /     rsft         
-  XX    XX     XX        spc       XX     XX  
+  caps  1  2    3    4    5    6    7    8    9    0    - @to-base bspc                   
+  tab   q    w    e    r    t    y    u    i    o    p    [     ]  \       @mwd @ma↑ @mwu        
+  @lsym  a   rght up  down left    left down  up rght ;    '     ret      @ma← @ma↓ @ma→                    
+  lsft @num    x    c    v    b    n    m    ,    .     /     rsft        mlft mmid mrgt                               
+  XX    XX     XX        spc            XX                                left kp0 kp.         
+  )
+
+(deflayer mouse 
+  caps  1  2    3    4    5    6    7    8    9    0    - @to-base bspc                 
+  tab   q    w    e    r    t    @mwl   @mwd  @mwu  @mwr    p    [     ]  \         @mwd @ma↑ @mwu      
+  @lsym  a   rght up  down left    @ma← @ma↓  @ma↑ @ma→ ;    '     ret             @ma← @ma↓ @ma→                  
+  lsft @num    mlft    mmid    mrgt     b    n    mlft    mmid    mrgt     /     rsft        mlft mmid mrgt    
+  XX    XX     XX        spc            XX                                         left kp0 kp.   
   )
 
 
 (deflayer normal   
   caps     1    2    3    4    5    6    7    8    9    0    @to-base2     =   bspc   
-  tab   q    w    e    r    t    y    u    i    o    p    [     ]  \      
-  esc  a    s    d    f    g    h    j    k    l    ;    '     ret      
-  lsft  z    x    c    v    b    n    m    ,    .    /     rsft         
-  lctl lalt lmet       spc       rmet ralt 
+  tab   q    w    e    r    t    y    u    i    o    p    [     ]  \       @mwd @ma↑ @mwu    
+  esc  a    s    d    f    g    h    j    k    l    ;    '     ret        @ma← @ma↓ @ma→     
+  lsft  z    x    c    v    b    n    m    ,    .    /     rsft           mlft mmid mrgt     
+  lctl lalt lmet       spc        ralt                                    left kp0 kp.       
   )
 
 

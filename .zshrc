@@ -33,10 +33,11 @@ zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 zinit snippet OMZP::command-not-found
 
+zinit load atuinsh/atuin 
 # Load completions
-# autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit
 
-# zinit cdreplay -q
+zinit cdreplay -q
 
 
 # Keybindings
@@ -72,6 +73,7 @@ export PATH="/usr/local/go/bin:$PATH"
 . "$HOME/.cargo/env"
 
 # Alias
+# export $SCRIPT_DIR="$HOME/scripts"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
@@ -89,7 +91,15 @@ export NVM_DIR="$HOME/.nvm"
 
 
 # Shell integrations
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# this is the output of the above command but it was so slow and effected the zsh perf and i donot have time to debug
+export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew";
+export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar";
+export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew";
+export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}";
+[ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}";
+export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:${INFOPATH:-}";
+########################
 eval "$(fzf --zsh)"
 
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
@@ -112,8 +122,11 @@ _fzf_compgen_dir() {
 eval "$(thefuck --alias fk)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(atuin init zsh)"
-zinit load atuinsh/atuin 
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Added by zap installation script
+PATH=$PATH:$HOME/.local/bin/
+
 

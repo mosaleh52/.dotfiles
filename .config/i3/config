@@ -39,14 +39,12 @@ exec --no-startup-id dex --autostart --environment i3
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-# exec --no-startup-id xrandr --newmode "1366x768" 85.25 1366 1440 1584 1704 768 771 778 795 -hsync +vsync
-# exec --no-startup-id xrandr --addmode eDP1 1366x768
-# exec --no-startup-id xrandr --output eDP1 --primary --mode 1366x768 --pos 0x1024 --rotate normal --output HDMI1 --mode 1280x1024 --pos 43x0 --rotate normal --output VIRTUAL1 --off --output VIRTUAL2 --off
-exec --no-startup-id feh --bg-fill Downloads/the-great-wave.jpg 
+exec --no-startup-id xrandr --output eDP-1-1 --primary --mode 1366x768 --pos 0x1024 --rotate normal --output HDMI-1-1 --mode 1280x1024 --pos 43x0 --rotate normal --output VIRTUAL1 --off --output VIRTUAL2 --off
+exec --no-startup-id feh --bg-fill Downloads/ign_unsplash46.png
+exec --no-startup-id picom -b --experimental-backends --backend glx --glx-no-stencil --glx-no-rebind-pixmap
 exec --no-startup-id nm-applet
 exec --no-startup-id sxhkd
-exec --no-startup-id /home/mo/Downloads/activitywatch/aw-qt --autostart-modules "aw-server,aw-watcher-input,aw-watcher-afk,aw-watcher-window"
+exec --no-startup-id activitywatch --autostart-modules "aw-server,aw-watcher-input,aw-watcher-afk,aw-watcher-window"
 exec --no-startup-id syncthing
 
 
@@ -60,7 +58,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec kitty
 
 
 # start dmenu (a program launcher)
